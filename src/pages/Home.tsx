@@ -19,11 +19,11 @@ export function Home() {
   const [roomCode, setRoomCode] = useState('');
 
   async function handleCreateRoom() {
-      if (!user) {
-        await signInWithGoogle();
-      }
+    if (!user) {
+      await signInWithGoogle();
+    }
 
-      history.push('/rooms/new');
+    history.push('/rooms/new');
   }
 
   async function handleJoinRoom(event: FormEvent) {
@@ -40,10 +40,15 @@ export function Home() {
       return;
     }
 
+    if (roomRef.val().endedAt) {
+      alert('Room already closed.');
+      return;
+    }
+
     history.push(`/rooms/${roomCode}`)
   }
 
-  return(
+  return (
     <div id="page-auth">
       <aside>
         <img src={illustrationImg} alt="Ilutração simbolizando perguntas e respostas" />
@@ -59,9 +64,9 @@ export function Home() {
           </button>
           <div className="separator">ou entre em uma sala</div>
           <form onSubmit={handleJoinRoom}>
-            <input 
+            <input
               type="text"
-              placeholder="Digite o código da sala" 
+              placeholder="Digite o código da sala"
               onChange={event => setRoomCode(event.target.value)}
               value={roomCode}
             />
